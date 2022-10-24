@@ -16,6 +16,7 @@ export default function HistorySreen() {
       </TodayHeader>
 
       <p>Em breve o histórico estará disponível</p>
+
       <Link to={"/hoje"}>Voltar para a tela de Hoje.</Link>
 
       <Footer>
@@ -24,7 +25,7 @@ export default function HistorySreen() {
           <ProgressCircle>
             <CircularProgressbar
               value={0}
-              text={`${0}%`}
+              text={`Hoje`}
               background
               backgroundPadding={6}
               styles={buildStyles({
@@ -59,6 +60,10 @@ const MainContent = styled.div`
   background-color: #f2f2f2;
 
   min-height: 100vh;
+
+  p{
+    margin-block: 30px;
+  }
 `;
 
 const TodayHeader = styled.div`

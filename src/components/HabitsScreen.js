@@ -6,6 +6,7 @@ import { COLORS } from "../assets/utils/constants";
 import { UserContext } from "./contexts/auth";
 import Habits from "./Habits";
 import NewHabitLayout from "./NewHabitLayout";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 export default function HabitsScreen() {
   const [habitsList, setHabitsList] = React.useState([]);
@@ -45,7 +46,28 @@ export default function HabitsScreen() {
 
       <Footer>
         <Link to="/habitos">Hábitos</Link>
-        <Link to="/hoje">Hoje</Link>
+        <Link to="/hoje">
+          <ProgressCircle>
+            <CircularProgressbar
+              value={0}
+              text={`Hoje`}
+              background
+              backgroundPadding={6}
+              styles={buildStyles({
+                rotation: 0.25,
+
+                strokeLinecap: "butt",
+
+                textSize: "16px",
+                
+                backgroundColor: "#3e98c7",
+                textColor: "#fff",
+                pathColor: "#fff",
+                trailColor: "transparent",
+              })}
+            />
+          </ProgressCircle>
+        </Link>
         <Link to="/historico">Histórico</Link>
       </Footer>
 
@@ -125,25 +147,30 @@ const AddHabitContainer = styled.div`
 `;
 
 const Footer = styled.footer`
-position: fixed;
-bottom: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 
-width: 100%;
-height: 70px;
+  width: 100%;
+  height: 70px;
 
-padding-inline: 36px;
+  padding-inline: 36px;
 
-background-color: #FFFFFF;
+  background-color: #ffffff;
 
-display: flex;
-align-items: center;
-justify-content: space-between;
-
-
-`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 const FooterPhantom = styled.div`
-width: 100%;
-height: 70px;
+  width: 100%;
+  height: 70px;
+`;
 
-`
+const ProgressCircle = styled.div`
+  width: 90px;
+  height: 90px;
+
+  margin-bottom: 50px;
+`;
