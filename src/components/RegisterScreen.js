@@ -2,7 +2,7 @@ import logo from "../assets/images/trackit_logo.png";
 import styled from "styled-components";
 import React from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function RegisterScreen() {
   const [registerInfo, setRegisterInfo] = React.useState({
@@ -44,6 +44,7 @@ export default function RegisterScreen() {
 
       <RegisterForm onSubmit={(event) => tryRegister(event)}>
         <input
+          data-identifier="input-email"
           onChange={(e) =>
             setRegisterInfo({ ...registerInfo, email: e.target.value })
           }
@@ -51,6 +52,7 @@ export default function RegisterScreen() {
         ></input>
 
         <input
+          data-identifier="input-password"
           onChange={(e) =>
             setRegisterInfo({ ...registerInfo, password: e.target.value })
           }
@@ -58,6 +60,7 @@ export default function RegisterScreen() {
         ></input>
 
         <input
+          data-identifier="input-name"
           onChange={(e) =>
             setRegisterInfo({ ...registerInfo, name: e.target.value })
           }
@@ -65,6 +68,7 @@ export default function RegisterScreen() {
         ></input>
 
         <input
+          data-identifier="input-photo"
           onChange={(e) =>
             setRegisterInfo({ ...registerInfo, image: e.target.value })
           }
@@ -73,6 +77,9 @@ export default function RegisterScreen() {
 
         <button type="submit">Cadastrar</button>
       </RegisterForm>
+      <Link  to={"/"}>
+        Já tem uma conta? Faça login!
+      </Link>
 
       <ErrorLog>
         <ShowErrorMessage />
@@ -87,8 +94,13 @@ export default function RegisterScreen() {
 
 const MainContent = styled.div`
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+  justify-content: center;
+
+  height: 100vh;
 `;
 
 const RegisterForm = styled.form`
@@ -106,7 +118,18 @@ const RegisterForm = styled.form`
 
   button {
     width: 303px;
-    height: 34px;
+    height: 45px;
+
+    background-color: #52B6FF;
+    border-radius: 5px;
+
+    color: #FFFFFF;
+
+    font-size: 21px;
+
+    border: none;
+
+    cursor:pointer;
   }
 `;
 

@@ -3,26 +3,34 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import axios from "axios";
+import { UserContext } from "./contexts/auth";
 
 export default function LoginScreen() {
   const [loginInfo, setLoginInfo] = React.useState({ email: "", password: "" });
-  console.log(loginInfo);
+
   const [ErrorMessage, setErrorMessage] = React.useState({});
+
+  const { setUserStats } = React.useContext(UserContext);
 
   const navigate = useNavigate();
 
   const tryLogin = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const promise = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
       loginInfo
     );
 
-    promise.then(() => navigate("/hoje"));
+    promise.then((ans) => handleLogin(ans.data));
 
     promise.catch((err) => setErrorMessage(err.response.data));
   };
+
+  function handleLogin(ansToken) {
+    setUserStats(ansToken);
+    navigate("/habitos")
+  }
 
   function ShowErrorMessage() {
     if (Object.keys(ErrorMessage).includes("details")) {
@@ -39,23 +47,30 @@ export default function LoginScreen() {
       <img src={logo} alt="" />
 
       <LoginForm onSubmit={(event) => tryLogin(event)}>
-          <input
-            onChange={(e) =>
-              setLoginInfo({ ...loginInfo, email: e.target.value })
-            }
-            placeholder="email"
-          ></input>
-          <input
-            onChange={(e) =>
-              setLoginInfo({ ...loginInfo, password: e.target.value })
-            }
-            placeholder="senha"
-          ></input>
+        <input
+          data-identifier="input-email"
+          onChange={(e) =>
+            setLoginInfo({ ...loginInfo, email: e.target.value })
+          }
+          placeholder="email"
+        ></input>
+        <input
+          data-identifier="input-password"
+          type="password"
+          onChange={(e) =>
+            setLoginInfo({ ...loginInfo, password: e.target.value })
+          }
+          placeholder="senha"
+        ></input>
 
-          <button type="submit">Entrar</button>
+        <button data-identifier="login-btn" type="submit">
+          Entrar
+        </button>
       </LoginForm>
 
-      <Link to={"/cadastro"}>Não tem nenhuma conta? Cadastre-se!</Link>
+      <Link data-identifier="sign-up-action" to={"/cadastro"}>
+        Não tem nenhuma conta? Cadastre-se!
+      </Link>
       <ErrorLog>
         <ShowErrorMessage />
       </ErrorLog>
@@ -69,8 +84,13 @@ export default function LoginScreen() {
 
 const MainContent = styled.div`
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+  justify-content: center;
+
+  height: 100vh;
 `;
 
 const LoginForm = styled.form`
@@ -88,7 +108,18 @@ const LoginForm = styled.form`
 
   button {
     width: 303px;
-    height: 34px;
+    height: 45px;
+
+    background-color: #52B6FF;
+    border-radius: 5px;
+
+    color: #FFFFFF;
+
+    font-size: 21px;
+
+    border: none;
+
+    cursor:pointer;
   }
 `;
 
