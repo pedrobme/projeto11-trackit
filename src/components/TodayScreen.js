@@ -5,6 +5,8 @@ import { UserContext } from "./contexts/auth";
 import { COLORS } from "../assets/utils/constants";
 import axios from "axios";
 import DayHandler from "./DayHandler";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 export default function TodayScreen() {
   const { userStats } = React.useContext(UserContext);
@@ -65,8 +67,7 @@ export default function TodayScreen() {
     if (habitsList.length === 0) {
       newFinishedPercent = 0;
     } else {
-      newFinishedPercent =
-        (finishedHabits.length / habitsList.length) * 100;
+      newFinishedPercent = (finishedHabits.length / habitsList.length) * 100;
       setFinishedPercent(newFinishedPercent);
     }
 
@@ -118,7 +119,28 @@ export default function TodayScreen() {
 
       <Footer>
         <Link to="/habitos">Hábitos</Link>
-        <Link to="/hoje">Hoje</Link>
+        <Link to="/hoje">
+          <ProgressCircle>
+            <CircularProgressbar
+              value={finishedPercent}
+              text={`${finishedPercent}%`}
+              background
+              backgroundPadding={6}
+              styles={buildStyles({
+                rotation: 0.25,
+
+                strokeLinecap: "butt",
+
+                textSize: "16px",
+                
+                backgroundColor: "#3e98c7",
+                textColor: "#fff",
+                pathColor: "#fff",
+                trailColor: "transparent",
+              })}
+            />
+          </ProgressCircle>
+        </Link>
         <Link to="/historico">Histórico</Link>
       </Footer>
 
@@ -181,7 +203,7 @@ const TodayStatsContainer = styled.div`
 
   width: 340px;
 
-  *{
+  * {
     margin-block: 10px;
   }
 
@@ -260,6 +282,7 @@ const CheckMark = styled.div`
 const Footer = styled.footer`
   position: fixed;
   bottom: 0;
+  left: 0;
 
   width: 100%;
   height: 70px;
@@ -276,4 +299,11 @@ const Footer = styled.footer`
 const FooterPhantom = styled.div`
   width: 100%;
   height: 70px;
+`;
+
+const ProgressCircle = styled.div`
+  width: 90px;
+  height: 90px;
+
+  margin-bottom: 50px;
 `;
